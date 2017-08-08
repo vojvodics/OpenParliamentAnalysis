@@ -28,7 +28,7 @@ stop_words = ['a', 'ako', 'ali', 'baš', 'bez', 'bi', 'bih', 'bijah', 'bijahu', 
               'unutra', 'upotrebiti', 'uz', 'uzeti', 'učinio', 'učiniti', 'vam', 'vama', 'vas', 'vaš', 'vaša', 'vaše',
               'veoma', 'već', 'većina', 'vi', 'video', 'više', 'vrlo', 'za', 'zahvaliti', 'zar', 'zašto', 'zbog',
               'znati', 'će', 'ćemo', 'ćete', 'ćeš', 'ću', 'često', 'čiji', 'šta', 'što', 'žele', 'želeo', 'želi',
-              'želim', 'želimo', 'želite', 'želiš']
+              'želim', 'želimo', 'želite', 'želiš', '.', ',', ':', ';', '"', "'", '-']
 # Part of stop words containing čćžđš without čćžđš
 bald_stop_words = ['bas', 'bijase', 'bice', 'bise', 'bjese', 'budes', 'doci', 'dosao', 'duz', 'hoce', 'hocemo',
                    'hocete', 'hoces',

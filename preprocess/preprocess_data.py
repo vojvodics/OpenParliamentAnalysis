@@ -3,6 +3,17 @@ from preprocess.stemmers.Croatian_stemmer import stem_list as CroStemmer
 from nltk.tokenize import word_tokenize
 from preprocess.stop_words import stop_words
 
+
+def get_stemmed_list(text):
+    # Get list of tokens
+    tokens = word_tokenize(text.lower())
+    # Remove stop words
+    stop_tokens = [token for token in tokens if not token in stop_words]
+    # Stemming
+    stemmed_tokens = CroStemmer(stop_tokens)
+    return stemmed_tokens
+
+
 if __name__ == '__main__':
     string = 'Na sednici Odbora za ustavna pitanja i zakonodavstvo, održanoj 14. jula, utvrđen je Predlog za izbor ' \
              'Zaštitnika građana.\r\n\r\nNarodna skupština, na predlog Odbora za ustavna pitanja i zakonodavstvo, ' \
@@ -23,8 +34,5 @@ if __name__ == '__main__':
              'Krsto Janjušević, Zoran Krasić, Bojan Torbica, Saša Radulović, Jelena Žarić Kovačević, ' \
              'Dejan Šulkić, Aleksandra Majkić, Srbislav Filipović, Vojislav Vujić, Nataša Vučković, ' \
              'Balint Pastor i Jasmina Obradović.'
-    tokens = word_tokenize(string.lower())
-    stop_tokens = [token for token in tokens if not token in stop_words]
-    stem_string_cro = CroStemmer(string)
-    print(stop_tokens)
-    print(stem_string_cro)
+
+    print(get_stemmed_list(string))

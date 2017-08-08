@@ -73,7 +73,7 @@ def stem_str(words):
 def stem_list(words):
     result = []
 
-    for word in re.findall(r'\w+', words):
+    for word in words:
         token = word.lower()
         if token in stop:
             result += token
