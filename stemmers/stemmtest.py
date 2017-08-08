@@ -18,7 +18,6 @@ from stemmers.Serbian_stemmer import stem_str as SerbStemmer
 from nltk.stem import SnowballStemmer, PorterStemmer, LancasterStemmer
 from stemming import porter2
 
-
 stemmers = [
     PorterStemmer().stem,  # 0
     porter2.stem,  # 1
@@ -186,19 +185,24 @@ def crawl2(pages):
 
 
 def crawl3():
+    # s = re.sub('\\\\', '', 'http:\/\/otvoreniparlament.rs\/transkript?page=2')
     headers = {'content-type': 'application/json'}
-    r = requests.get('http://otvoreniparlament.rs/aktuelno?page=2', headers=headers)
-    print(r.text)
+    r = requests.get('http://otvoreniparlament.rs/aktuelno', headers=headers)
     if r.text.strip()[-13:] == '{"error":404}':
         json_string = r.text.strip()[:-13]
-    print(json_string)
-    # result = datas.match(r.text)
-    # print(result)
-    # data = json.loads(r.text)
+    data = json.loads(json_string)
+    num_pages = data['vesti']['last_page']
+    for i in range(1, num_pages + 1):
+        r = requests.get('http://otvoreniparlament.rs/aktuelno', headers=headers, params={'page': i})
+        if r.text.strip()[-13:] == '{"error":404}':
+            json_string = r.text.strip()[:-13]
+        data = json.loads(json_string)
+        content = data['vesti']['data']
+        for obj in content:
+            print(obj['naslov'])
 
 
 def test_with_fixed_n(n=5):
-
     for i, s in enumerate(stemmers):
         print(str(i), '. Stemmer:')
         for page in pages:
@@ -237,6 +241,7 @@ def main_test(range_from=2, range_to=10):
         print(score)
         print()
 
+
 if __name__ == '__main__':
     # crawl(pages, time_crawl=50)
     # crawl2(pages)
@@ -248,3 +253,4 @@ if __name__ == '__main__':
     # main_test(range_from=5, range_to=10)
     crawl3()
 
+    # print(s)
