@@ -58,7 +58,7 @@ def korjenuj(pojavnica):
     return pojavnica
 
 
-def stem(words):
+def stem_str(words):
     result = ''
 
     for word in re.findall(r'\w+', words):
@@ -69,3 +69,14 @@ def stem(words):
         result += korjenuj(transformiraj(token)) + ' '
     return result
 
+
+def stem_list(words):
+    result = []
+
+    for word in re.findall(r'\w+', words):
+        token = word.lower()
+        if token in stop:
+            result += token
+            continue
+        result.append(korjenuj(transformiraj(token)))
+    return result

@@ -1,5 +1,5 @@
 from preprocess.stemmers.Serbian_stemmer import stem_str as SerbStemmer
-from preprocess.stemmers.Croatian_stemmer import stem as CroStemmer
+from preprocess.stemmers.Croatian_stemmer import stem_list as CroStemmer
 from nltk.tokenize import word_tokenize
 from preprocess.stop_words import stop_words
 
@@ -25,13 +25,6 @@ if __name__ == '__main__':
              'Balint Pastor i Jasmina Obradović.'
     tokens = word_tokenize(string.lower())
     stop_tokens = [token for token in tokens if not token in stop_words]
-    # stem_string_srb = SerbStemmer(string)
-    # stem_string_cro = CroStemmer(string)
-    # tokens1 = word_tokenize(stem_string_srb)
-    # tokens2 = word_tokenize(stem_string_cro)
-    # print(tokens1)
-    # print(tokens2)
-    # print(tokens)
-    # print(stem_string_srb)
-    # print(stem_string_cro)
+    stem_string_cro = CroStemmer(string)
     print(stop_tokens)
+    print(stem_string_cro)
