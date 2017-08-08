@@ -185,7 +185,6 @@ def crawl2(pages):
 
 
 def crawl3():
-    # s = re.sub('\\\\', '', 'http:\/\/otvoreniparlament.rs\/transkript?page=2')
     headers = {'content-type': 'application/json'}
     r = requests.get('http://otvoreniparlament.rs/aktuelno', headers=headers)
     if r.text.strip()[-13:] == '{"error":404}':
