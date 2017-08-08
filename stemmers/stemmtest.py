@@ -1,8 +1,7 @@
 """
 The code below is used to measure how good a stemmer is working for Serbian language.
 
-Main idea is to compute score for each stemmer by comparing stemming algorithm with
-basic string slicing with various lengths.
+Main idea is to compute score for each stemmer by slicing stemmed words and comparing two lists.
 """
 import re
 import urllib.request as urllib

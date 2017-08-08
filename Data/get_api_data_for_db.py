@@ -7,8 +7,7 @@ import json
 def get_json(url):
     headers = {'content-type': 'application/json'}
     r = requests.get(url, headers=headers)
-    if r.text.strip()[-13:] == '{"error":404}':
-        json_string = r.text.strip()[:-13]
+    json_string = r.text.strip().replace('{"error":404}', '')
     data = json.loads(json_string)
     return data
 
@@ -97,4 +96,4 @@ def get_politicke_partije():
 
 
 if __name__ == '__main__':
-    get_politicke_partije()
+    pass
