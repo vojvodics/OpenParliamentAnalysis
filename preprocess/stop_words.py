@@ -30,10 +30,13 @@ stop_words = ['a', 'ako', 'ali', 'baš', 'bez', 'bi', 'bih', 'bijah', 'bijahu', 
               'znati', 'će', 'ćemo', 'ćete', 'ćeš', 'ću', 'često', 'čiji', 'šta', 'što', 'žele', 'želeo', 'želi',
               'želim', 'želimo', 'želite', 'želiš']
 # Part of stop words containing čćžđš without čćžđš
-bald_stop_words = ['bas', 'bijase', 'bice', 'bise', 'bjese', 'budes', 'doci', 'dosao', 'duz', 'hoce', 'hocemo', 'hocete', 'hoces',
-        'hocu', 'izmedju', 'ici', 'jos', 'juce', 'moras', 'moci', 'moze', 'mozemo', 'mozete', 'mozes', 'naci', 'nasa',
-        'nase', 'naseg', 'nece', 'necemo', 'necete', 'neces', 'necu', 'nesto', 'nista', 'otisao', 'pocetak', 'takodje',
-        'tacno', 'trebas', 'ucinio', 'uciniti', 'vasa', 'vase', 'vec', 'vecina', 'vise', 'zasto', 'ce', 'cemo', 'cete',
-        'ces', 'cu', 'cesto', 'ciji', 'sta', 'sto', 'zele', 'zeleo', 'zeli', 'zelim', 'zelimo', 'zelite', 'zelis']
-# Classic and bald stop words combined
-full_stop_words = list(stop_words + bald_stop_words)
+bald_stop_words = ['bas', 'bijase', 'bice', 'bise', 'bjese', 'budes', 'doci', 'dosao', 'duz', 'hoce', 'hocemo',
+                   'hocete', 'hoces',
+                   'hocu', 'izmedju', 'ici', 'jos', 'juce', 'moras', 'moci', 'moze', 'mozemo', 'mozete', 'mozes',
+                   'naci', 'nasa',
+                   'nase', 'naseg', 'nece', 'necemo', 'necete', 'neces', 'necu', 'nesto', 'nista', 'otisao', 'pocetak',
+                   'takodje',
+                   'tacno', 'trebas', 'ucinio', 'uciniti', 'vasa', 'vase', 'vec', 'vecina', 'vise', 'zasto', 'ce',
+                   'cemo', 'cete',
+                   'ces', 'cu', 'cesto', 'ciji', 'sta', 'sto', 'zele', 'zeleo', 'zeli', 'zelim', 'zelimo', 'zelite',
+                   'zelis']
