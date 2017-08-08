@@ -3,19 +3,20 @@ The code below is used to measure how good a stemmer is working for Serbian lang
 
 Main idea is to compute score for each stemmer by slicing stemmed words and comparing two lists.
 """
+import json
 import re
 import urllib.request as urllib
-import requests
-from urllib.parse import urljoin
-import bs4 as bs
 from collections import defaultdict
 from time import time
-import json
+from urllib.parse import urljoin
 
-from stemmers.Croatian_stemmer import stem as CroStemmer
-from stemmers.Serbian_stemmer import stem_str as SerbStemmer
+import bs4 as bs
+import requests
 from nltk.stem import SnowballStemmer, PorterStemmer, LancasterStemmer
 from stemming import porter2
+
+from preprocess.stemmers import stem as CroStemmer
+from preprocess.stemmers import stem_str as SerbStemmer
 
 stemmers = [
     PorterStemmer().stem,  # 0
