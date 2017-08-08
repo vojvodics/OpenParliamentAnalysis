@@ -1,10 +1,15 @@
-from preprocess.stemmers.Serbian_stemmer import stem_str as SerbStemmer
 from preprocess.stemmers.Croatian_stemmer import stem_list as CroStemmer
 from nltk.tokenize import word_tokenize
 from preprocess.stop_words import stop_words
+from gensim import corpora
 
 
 def get_stemmed_list(text):
+    """
+    Method for converting raw text to list of stemmed tokens.
+    :param text: raw text
+    :return: list of preprocessed tokens
+    """
     # Get list of tokens
     tokens = word_tokenize(text.lower())
     # Remove stop words
@@ -12,6 +17,10 @@ def get_stemmed_list(text):
     # Stemming
     stemmed_tokens = CroStemmer(stop_tokens)
     return stemmed_tokens
+
+
+def create_dictionary():
+    pass
 
 
 if __name__ == '__main__':
@@ -34,5 +43,4 @@ if __name__ == '__main__':
              'Krsto Janjušević, Zoran Krasić, Bojan Torbica, Saša Radulović, Jelena Žarić Kovačević, ' \
              'Dejan Šulkić, Aleksandra Majkić, Srbislav Filipović, Vojislav Vujić, Nataša Vučković, ' \
              'Balint Pastor i Jasmina Obradović.'
-
-    print(get_stemmed_list(string))
+    print(set(get_stemmed_list(string)))
