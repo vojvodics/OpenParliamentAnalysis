@@ -27,8 +27,8 @@ stop = set(
      'žele', 'moram', 'moraš', 'mora', 'moramo', 'morate', 'moraju', 'trebam', 'trebaš', 'treba', 'trebamo', 'trebate',
      'trebaju', 'mogu', 'možeš', 'može', 'možemo', 'možete'])
 pravila = [re.compile(r'^(' + osnova + ')(' + nastavak + r')$') for osnova, nastavak in
-           [e.strip().split(' ') for e in open('rules.txt')]]
-transformacije = [e.strip().split('\t') for e in open('transformations.txt')]
+           [e.strip().split(' ') for e in open('stemmers/rules.txt')]]
+transformacije = [e.strip().split('\t') for e in open('stemmers/transformations.txt')]
 
 
 def istakniSlogotvornoR(niz):
