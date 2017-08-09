@@ -1,10 +1,9 @@
 """
 This file contains methods for preprocessing text.
 The intendet pipeline would be:
-    1. s = get_stemmed_list_of_documents(list_of_documents)
+    1. s = get_stemmed_list_of_documents(list_of_documents)  # parsing one document at a time
     2. d = create_dictionary(s)
-    3. m = create_document_term_matrix(d, w)
-    ...
+    3. m = create_document_term_matrix(d, s)  # bag of words
 """
 
 from preprocess.stemmers.Croatian_stemmer import stem_list as CroStemmer
@@ -12,25 +11,25 @@ from nltk.tokenize import word_tokenize
 from preprocess.stop_words import stop_words
 from gensim import corpora
 
-test_docs = ['Na sednici Odbora za ustavna pitanja i zakonodavstvo, održanoj 14. jula, utvrđen je Predlog za izbor ',
-             'Zaštitnika građana.\r\n\r\nNarodna skupština, na predlog Odbora za ustavna pitanja i zakonodavstvo, ',
-             'bira Zaštitnika građana, a kandidate Odboru predlažu poslaničke grupe Narodne skupštine.',
-             '\r\n\r\nPredlog da se za Zaštitnika građana izabere kandidat Ekaterina Marinković, podnela je ',
-             'Poslanička grupa Srpska radikalna stranka; predlog da se za Zaštitnika građana izabere zajednički ',
-             'kandidat Miloš Janković, podneli su Poslanička grupa Demokratska stranka i Poslanička grupa ',
-             'Socijaldemokratska stranka - Narodni pokret Srbije; predlog da se za Zaštitnika građana izabere ',
-             'zajednički kandidat Zoran Pašalić, podnele su poslaničke grupe Srpska napredna stranka, ',
-             'Pokret socijalista - Narodna seljačka stranka - Ujedinjena seljačka stranka, ',
-             'Socijalistička partija Srbije, Socijaldemokratska partija Srbije, Jedinstvena Srbija, Partija ',
-             'ujedinjenih penzionera Srbije i Savez vojvođanskih Mađara - Partija za demokratsko delovanje, i predlog ',
-             'da se za Zaštitnika građana izabere kandidat Vojin Biljić, podnela je Poslanička grupa ',
-             'Dosta je bilo.\r\n\r\nNakon obavljenih razgovora sa kandidatima, članovi Odbora su većinom ',
-             'glasova uputili predlog Narodnoj skupštini da za Zaštitnika građana izabere Zorana Pašalića, ',
-             'po hitnom postupku. \r\n\r\nSednici je predsedavao predsednik Odbora Đorđe Komlenski, ',
-             'a prisustvovali su sledeći članovi i zamenici članova Odbora: Vesna Nikolić Vukajlović, ',
-             'Krsto Janjušević, Zoran Krasić, Bojan Torbica, Saša Radulović, Jelena Žarić Kovačević, ',
-             'Dejan Šulkić, Aleksandra Majkić, Srbislav Filipović, Vojislav Vujić, Nataša Vučković, ',
-             'Balint Pastor i Jasmina Obradović.']
+# test_docs = ['Na sednici Odbora za ustavna pitanja i zakonodavstvo, održanoj 14. jula, utvrđen je Predlog za izbor ',
+#              'Zaštitnika građana.\r\n\r\nNarodna skupština, na predlog Odbora za ustavna pitanja i zakonodavstvo, ',
+#              'bira Zaštitnika građana, a kandidate Odboru predlažu poslaničke grupe Narodne skupštine.',
+#              '\r\n\r\nPredlog da se za Zaštitnika građana izabere kandidat Ekaterina Marinković, podnela je ',
+#              'Poslanička grupa Srpska radikalna stranka; predlog da se za Zaštitnika građana izabere zajednički ',
+#              'kandidat Miloš Janković, podneli su Poslanička grupa Demokratska stranka i Poslanička grupa ',
+#              'Socijaldemokratska stranka - Narodni pokret Srbije; predlog da se za Zaštitnika građana izabere ',
+#              'zajednički kandidat Zoran Pašalić, podnele su poslaničke grupe Srpska napredna stranka, ',
+#              'Pokret socijalista - Narodna seljačka stranka - Ujedinjena seljačka stranka, ',
+#              'Socijalistička partija Srbije, Socijaldemokratska partija Srbije, Jedinstvena Srbija, Partija ',
+#              'ujedinjenih penzionera Srbije i Savez vojvođanskih Mađara - Partija za demokratsko delovanje, i predlog ',
+#              'da se za Zaštitnika građana izabere kandidat Vojin Biljić, podnela je Poslanička grupa ',
+#              'Dosta je bilo.\r\n\r\nNakon obavljenih razgovora sa kandidatima, članovi Odbora su većinom ',
+#              'glasova uputili predlog Narodnoj skupštini da za Zaštitnika građana izabere Zorana Pašalića, ',
+#              'po hitnom postupku. \r\n\r\nSednici je predsedavao predsednik Odbora Đorđe Komlenski, ',
+#              'a prisustvovali su sledeći članovi i zamenici članova Odbora: Vesna Nikolić Vukajlović, ',
+#              'Krsto Janjušević, Zoran Krasić, Bojan Torbica, Saša Radulović, Jelena Žarić Kovačević, ',
+#              'Dejan Šulkić, Aleksandra Majkić, Srbislav Filipović, Vojislav Vujić, Nataša Vučković, ',
+#              'Balint Pastor i Jasmina Obradović.']
 
 
 def get_stemmed_document_list(text):
@@ -68,8 +67,12 @@ def create_dictionary(list_of_tokenized_documents, save=False, print_dict=False)
     """
     dictionary = corpora.Dictionary(list_of_tokenized_documents)
     if save is True:
-        with open('../temp/dictionary.txt', 'wb') as f:
-            dictionary.save(f)
+        try:
+            with open('../temp/dictionary.txt', 'wb') as f:
+                dictionary.save(f)
+        except IOError:
+            print("Couldn't save dictionary to temp folder :(")
+
     if print_dict is True:
         print(dictionary.token2id)
     return dictionary
@@ -87,6 +90,9 @@ def create_document_term_matrix(dictionary, list_of_tokenized_documents):
     return dt_matrix
 
 
-if __name__ == '__main__':
-    texts = get_stemmed_list_of_documents(test_docs)
-    create_dictionary(texts, save=False, print_dict=True)
+def preprocess_pipeline(list_of_documents):
+    tokenized_doc_list = get_stemmed_list_of_documents(
+        list_of_documents)  # process list of documents -> doc = list of stemmed words
+    dictionary = create_dictionary(tokenized_doc_list)
+    bow = create_document_term_matrix(dictionary, tokenized_doc_list)
+    return bow
