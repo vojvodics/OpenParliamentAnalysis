@@ -12,6 +12,32 @@ def get_json(url):
     return data
 
 
+"""
+    Get entity functions.
+"""
+
+
+def get_osobe():
+    data = get_json('http://otvoreniparlament.rs/osoba')
+    content = data['osobe']
+    for obj in content:
+        _print_osoba(obj)
+
+
+def get_poslanicki_klub():
+    data = get_json('http://otvoreniparlament.rs/poslanicki-klub')
+    content = data['poslanickiKlub']
+    for obj in content:
+        _print_poslanicki_klub(obj)
+
+
+def get_politicke_partije(url='http://otvoreniparlament.rs/politicka-partija'):
+    data = get_json()
+    content = data['politickePartije']
+    for obj in content:
+        _print_partija(obj)
+
+
 def get_aktuelno():
     data = get_json('http://otvoreniparlament.rs/aktuelno')
     num_pages = data['vesti']['last_page']
@@ -32,7 +58,12 @@ def get_aktuelno():
             print()
 
 
-def print_osoba(obj):
+"""
+    Print entity functions.
+"""
+
+
+def _print_osoba(obj):
     print('id: ', obj['id'])
     print('ime: ', obj['ime'])
     print('prezime: ', obj['prezime'])
@@ -41,58 +72,36 @@ def print_osoba(obj):
     print('mesto rodjenja: ', obj['mesto_rodjenja'])
     print('profesija: ', obj['profesija'])
     print('biografija: ', obj['biografija'])
-    print()
-    print()
+    print('\n')
 
 
-def save_osoba(obj):
-    pass
-
-
-def get_osobe():
-    data = get_json('http://otvoreniparlament.rs/osoba')
-    content = data['osobe']
-    for obj in content:
-        print_osoba(obj)
-
-
-def print_poslanicki_klub(obj):
+def _print_poslanicki_klub(obj):
     print('id: ', obj['id'])
     print('naziv: ', obj['naziv'])
     print('opis: ', obj['opis'])
     print('last_update', obj['updated_at'])
     print('saziv id', obj['saziv_id'])
-    print()
-    print()
+    print('\n')
 
 
-def save_poslanicki_klub(obj):
-    pass
-
-
-def get_poslanicki_klub():
-    data = get_json('http://otvoreniparlament.rs/poslanicki-klub')
-    content = data['poslanickiKlub']
-    for obj in content:
-        print_poslanicki_klub(obj)
-
-
-def print_partija(obj):
+def _print_partija(obj):
     print('id: ', obj['id'])
     print('naziv: ', obj['naziv'])
-    print()
-    print()
+    print('\n')
 
 
-def save_partija(obj):
-    pass
+"""
+    Task specific functions.
+"""
 
 
-def get_politicke_partije():
-    data = get_json('http://otvoreniparlament.rs/politicka-partija')
-    content = data['politickePartije']
+def akt_naslov_list():
+    lst = []
+    data = get_json('http://otvoreniparlament.rs/akt')
+    content = data['akta']
     for obj in content:
-        print_partija(obj)
+        lst.append(obj['naslov'])
+    return lst
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-import sys
+import os
 
 stop = set(
     ['biti', 'jesam', 'budem', 'sam', 'jesi', 'budeš', 'si', 'jesmo', 'budemo', 'smo', 'jeste', 'budete', 'ste', 'jesu',
@@ -27,8 +27,8 @@ stop = set(
      'žele', 'moram', 'moraš', 'mora', 'moramo', 'morate', 'moraju', 'trebam', 'trebaš', 'treba', 'trebamo', 'trebate',
      'trebaju', 'mogu', 'možeš', 'može', 'možemo', 'možete'])
 pravila = [re.compile(r'^(' + osnova + ')(' + nastavak + r')$') for osnova, nastavak in
-           [e.strip().split(' ') for e in open('stemmers/rules.txt')]]
-transformacije = [e.strip().split('\t') for e in open('stemmers/transformations.txt')]
+           [e.strip().split(' ') for e in open(os.path.join(os.path.dirname(__file__), 'rules.txt'))]]
+transformacije = [e.strip().split('\t') for e in open(os.path.join(os.path.dirname(__file__), 'transformations.txt'))]
 
 
 def istakniSlogotvornoR(niz):
