@@ -2,11 +2,10 @@ import requests
 import json
 
 
-# todo /grad (/akt /radno_telo /saziv /oblasti /) /radno_telo /sednica_odbrora /javno_slusanje /glasanje{akt} /istrazivanje
-
-def get_json(url):
+def get_json(url, page=1):
     headers = {'content-type': 'application/json'}
-    r = requests.get(url, headers=headers)
+    params = {'page': page}
+    r = requests.get(url, headers=headers, params=params)
     json_string = r.text.strip().replace('{"error":404}', '')
     data = json.loads(json_string)
     return data
@@ -31,8 +30,8 @@ def get_poslanicki_klub():
         _print_poslanicki_klub(obj)
 
 
-def get_politicke_partije(url='http://otvoreniparlament.rs/politicka-partija'):
-    data = get_json()
+def get_politicke_partije():
+    data = get_json('http://otvoreniparlament.rs/politicka-partija')
     content = data['politickePartije']
     for obj in content:
         _print_partija(obj)
@@ -42,11 +41,11 @@ def get_aktuelno():
     data = get_json('http://otvoreniparlament.rs/aktuelno')
     num_pages = data['vesti']['last_page']
     for i in range(1, num_pages + 1):
-        r = requests.get('http://otvoreniparlament.rs/aktuelno', headers={'content-type': 'application/json'},
-                         params={'page': i})
-        if r.text.strip()[-13:] == '{"error":404}':
-            json_string = r.text.strip()[:-13]
-        data = json.loads(json_string)
+        # r = requests.get('http://otvoreniparlament.rs/aktuelno', headers={'content-type': 'application/json'},
+        #                  params={'page': i})
+        # json_string = r.text.strip().replace('{"error":404}', '')
+        # data = json.loads(json_string)
+        data = get_json(url='http://otvoreniparlament.rs/aktuelno', page=i)
         content = data['vesti']['data']
         for obj in content:
             print('id: ', obj['id'])
@@ -98,11 +97,14 @@ def _print_partija(obj):
 def akt_naslov_list():
     lst = []
     data = get_json('http://otvoreniparlament.rs/akt')
-    content = data['akta']
-    for obj in content:
-        lst.append(obj['naslov'])
+    num_pages = data['paginator']['last_page']
+    for i in range(num_pages + 1):
+        page = get_json(url='http://otvoreniparlament.rs/akt', page=i)
+        content = page['akta']
+        for obj in content:
+            lst.append(obj['naslov'])
     return lst
 
 
 if __name__ == '__main__':
-    pass
+    print(akt_naslov_list())
