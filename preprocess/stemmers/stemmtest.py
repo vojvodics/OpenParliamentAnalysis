@@ -15,8 +15,8 @@ import requests
 from nltk.stem import SnowballStemmer, PorterStemmer, LancasterStemmer
 from stemming import porter2
 
-from preprocess.stemmers import stem as CroStemmer
-from preprocess.stemmers import stem_str as SerbStemmer
+from preprocess.stemmers import Croatian_stemmer as CroStemmer
+from preprocess.stemmers import Serbian_stemmer as SerbStemmer
 
 stemmers = [
     PorterStemmer().stem,  # 0
@@ -187,14 +187,14 @@ def crawl2(pages):
 def crawl3():
     headers = {'content-type': 'application/json'}
     r = requests.get('http://otvoreniparlament.rs/aktuelno', headers=headers)
-    if r.text.strip()[-13:] == '{"error":404}':
-        json_string = r.text.strip()[:-13]
+    # ja ne dobijam 404 pri zahtevima, pa sam zato promenio ovo
+    json_string = r.text.strip()[:-13] if r.text.strip()[-13:] == '{"error":404}' else r.text
     data = json.loads(json_string)
     num_pages = data['vesti']['last_page']
     for i in range(1, num_pages + 1):
         r = requests.get('http://otvoreniparlament.rs/aktuelno', headers=headers, params={'page': i})
-        if r.text.strip()[-13:] == '{"error":404}':
-            json_string = r.text.strip()[:-13]
+        # ista prica kao i iznad
+        json_string = r.text.strip()[:-13] if r.text.strip()[-13:] == '{"error":404}' else r.text
         data = json.loads(json_string)
         content = data['vesti']['data']
         for obj in content:

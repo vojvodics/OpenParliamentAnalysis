@@ -41,7 +41,7 @@ def get_stemmed_document_list(text):
     # Get list of tokens
     tokens = word_tokenize(text.lower())
     # Remove stop words
-    stop_tokens = [token for token in tokens if not token in stop_words]
+    stop_tokens = [token for token in tokens if token not in stop_words]
     # Stemming
     stemmed_tokens = CroStemmer(stop_tokens)
     return stemmed_tokens

@@ -27,8 +27,8 @@ stop = set(
      'žele', 'moram', 'moraš', 'mora', 'moramo', 'morate', 'moraju', 'trebam', 'trebaš', 'treba', 'trebamo', 'trebate',
      'trebaju', 'mogu', 'možeš', 'može', 'možemo', 'možete'])
 pravila = [re.compile(r'^(' + osnova + ')(' + nastavak + r')$') for osnova, nastavak in
-           [e.strip().split(' ') for e in open(os.path.join(os.path.dirname(__file__), 'rules.txt'))]]
-transformacije = [e.strip().split('\t') for e in open(os.path.join(os.path.dirname(__file__), 'transformations.txt'))]
+           [e.strip().split(' ') for e in open(os.path.join(os.path.dirname(__file__), 'rules.txt'), encoding='utf8')]]
+transformacije = [e.strip().split('\t') for e in open(os.path.join(os.path.dirname(__file__), 'transformations.txt'), encoding='utf8')]
 
 
 def istakniSlogotvornoR(niz):
