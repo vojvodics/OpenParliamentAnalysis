@@ -37,6 +37,21 @@ def get_politicke_partije():
         _print_partija(obj)
 
 
+def get_poslanike():
+    data = get_json('http://otvoreniparlament.rs/poslanik')
+    for posl_grupa in data:
+        for item in data[posl_grupa]:
+            print('poslanik_id:', item['id'])
+            _print_osoba(item['osoba'])
+
+
+# get_poslanik ??
+def get_poslanik_by_id(poslanik_id):
+    data = get_json('http://otvoreniparlament.rs/poslanik/{}'.format(poslanik_id))
+    # vraca objekat {'poslanik': {}}
+    _print_poslanik(data['poslanik'])
+
+
 def get_aktuelno():
     data = get_json('http://otvoreniparlament.rs/aktuelno')
     num_pages = data['vesti']['last_page']
@@ -55,6 +70,18 @@ def get_aktuelno():
                 .replace('<em>', '').replace('</em>', '')
             print('opis: ', opis)
             print()
+
+
+def get_govor_by_poslanik(poslanik_id):
+    data = get_json('http://otvoreniparlament.rs/poslanik/{}/govori'.format(poslanik_id))
+    # data keys: dict_keys(['tipGovora', 'tipGovoraParam', 'poslanik', 'rod', 'govori', 'stranka'])
+    num_pages = data['govori']['last_page']
+    for i in range(1, num_pages + 1):
+        data = get_json(url='http://otvoreniparlament.rs/poslanik/{}/govori'.format(poslanik_id), page=i)
+        content = data['govori']['data']
+        for obj in content:
+            # obj keys: dict_keys(['tezina', 'osoba_id', 'govor', 'predsedavajuci', 'id', 'transkript_id', 'vrsta_govora', 'osoba'])
+            print(obj['govor'])
 
 
 """
@@ -87,6 +114,11 @@ def _print_partija(obj):
     print('id: ', obj['id'])
     print('naziv: ', obj['naziv'])
     print('\n')
+
+
+def _print_poslanik(obj):
+    print('poslanik_id:', obj['id'])
+    _print_osoba(obj['osoba'])
 
 
 """
